@@ -16,7 +16,11 @@ export class SocketService {
     }
 
     public send(message: any): void {
-        this.socket.emit('message', message);
+        this.socket.emit('chat message', message);
+    }
+
+    public initiatePuppies(): void {
+        this.socket.emit('puppies');
     }
 
     public onMessage(): Observable<any> {
@@ -25,7 +29,13 @@ export class SocketService {
         });
     }
 
+    public onPuppies(): Observable<any> {
+        return new Observable<any>(observer => {
+            this.socket.on('puppies', (data: any) => observer.next(data));
+        });
+    }
     public onEvent(event: Event): Observable<any> {
+        console.log('event');
         return new Observable<Event>(observer => {
             this.socket.on(event, () => observer.next());
         });

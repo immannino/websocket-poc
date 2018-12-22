@@ -1,7 +1,25 @@
+<mat-card *ngIf="isDebug" class="debug">
+  <div class="connects">
+    <div *ngFor="let msg of connectMessages">
+      {{msg}}
+    </div>
+  </div>
+  <status></status>>
+</mat-card>
 <div class="container">
+  <form>
+    <mat-form-field class="search-form">
+      <input matInput placeholder="Send Message" name="messager" value="" [(ngModel)]="userMessage">
+    </mat-form-field>
+    <button mat-stroked-button (click)="sendMessage(userMessage);" class="search-button">Search</button>
+  </form>
   <div class="messages" *ngIf="messages">
-    <span *ngFor="let message of messages">
+    <div *ngFor="let message of messages">
       Message: {{message}}
-    </span>
+    </div>
+    <!-- <span class="dogs" *ngFor="let url of urls">
+      <img class="icon" alt="" [src]="url">
+    </span> -->
+    <!-- {{count}} -->
   </div>
 </div>

@@ -11,6 +11,7 @@ var authMap = {
   tokenType: "",
   expiration: 0
 };
+var count = 0;
 
 var queue = [];
 
@@ -21,12 +22,16 @@ app.get('/', function(req, res){
 io.on('connection', function(socket){
     console.log("person connected");
     
-    !authMap.accessToken.length ? authenticate() : console.log('no auth needed');
-
+    // !authMap.accessToken.length ? authenticate() : console.log('no auth needed');
+    // streamAudio();
     socket.on('chat message', function(msg){
-        console.log("chat message");
-    io.emit('chat message', msg);
-  });
+        console.log(`Message: ${msg}`);
+        io.emit('chat message', msg);
+    });
+
+    socket.on('puppies', () => {
+      getPuppies();
+    })
 });
 
 http.listen(3000, function(){
@@ -34,7 +39,8 @@ http.listen(3000, function(){
 });
 
 function streamAudio() {
-
+  io.emit('puppies', 1);
+  setInterval(streamAudio, 5000);
 }
 
 function authenticate() {
@@ -59,5 +65,20 @@ function authenticate() {
       authMap.tokenType = body.tokenType;
       console.log(body);
     }
+  });
+}
+
+function getPuppies() {
+  let url = "https://dog.ceo/api/breeds/image/random"
+  let options = {
+    url: url,
+    method: 'GET',
+    json: true
+  }
+
+  request(options, (error, response, body) => {
+    io.emit('puppies', body.message);
+    console.log("fuck");
+    setInterval(getPuppies, 1000);
   });
 }

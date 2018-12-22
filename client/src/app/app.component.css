@@ -1,0 +1,19 @@
+.icon {
+    height: 50px;
+    width: 50px;
+}
+
+.debug {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100px;
+    /* width: 100vw; */
+}
+
+.connects {
+    overflow: scroll;
+}
+
+.disconnects {
+    overflow: scroll;
+}
